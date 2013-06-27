@@ -43,6 +43,7 @@ static CGPoint CGPointFromString_(NSString* str)
     theString = [theString stringByReplacingOccurrencesOfString:@"{ " withString:@""];
     theString = [theString stringByReplacingOccurrencesOfString:@" }" withString:@""];
     NSArray *array = [theString componentsSeparatedByString:@","];
+
     return CGPointMake([[array objectAtIndex:0] floatValue], [[array objectAtIndex:1] floatValue]);
 }
 #endif

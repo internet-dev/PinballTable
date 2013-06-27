@@ -14,7 +14,7 @@
 #import "Box2D.h"
 #import "Constants.h"
 
-@interface Helper : NSObject 
+@interface Helper : NSObject
 {
 }
 

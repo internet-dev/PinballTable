@@ -1,15 +1,15 @@
 //
 //  GB2ShapeCache.h
-//  
+//
 //  Loads physics sprites created with http://www.PhysicsEditor.de
 //
 //  Generic Shape Cache for box2d
 //
-//  Copyright by Andreas Loew 
+//  Copyright by Andreas Loew
 //      http://www.PhysicsEditor.de
 //      http://texturepacker.com
 //      http://www.code-and-web.de
-//  
+//
 //  All rights reserved.
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,10 +18,10 @@
 //  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 //  copies of the Software, and to permit persons to whom the Software is
 //  furnished to do so, subject to the following conditions:
-//  
+//
 //  The above copyright notice and this permission notice shall be included in
 //  all copies or substantial portions of the Software.
-//  
+//
 //  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 //  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -51,19 +51,19 @@ static CGPoint CGPointFromString_(NSString* str)
 /**
  * Internal class to hold the fixtures
  */
-class FixtureDef 
+class FixtureDef
 {
 public:
     FixtureDef()
     : next(0)
     {}
-    
+
     ~FixtureDef()
     {
         delete next;
         delete fixture.shape;
     }
-    
+
     FixtureDef *next;
     b2FixtureDef fixture;
     int callbackData;
@@ -136,7 +136,7 @@ public:
 {
     BodyDef *so = [shapeObjects_ objectForKey:shape];
     assert(so);
-    
+
     FixtureDef *fix = so->fixtures;
     while(fix)
     {
@@ -158,19 +158,19 @@ public:
                                                ofType:nil
                                           inDirectory:nil];
 
-	NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithContentsOfFile:path];
 
     NSDictionary *metadataDict = [dictionary objectForKey:@"metadata"];
     int format = [[metadataDict objectForKey:@"format"] intValue];
     ptmRatio_ =  [[metadataDict objectForKey:@"ptm_ratio"] floatValue];
 
     NSAssert(format == 1, @"Format not supported");
-    
+
     NSDictionary *bodyDict = [dictionary objectForKey:@"bodies"];
 
     b2Vec2 vertices[b2_maxPolygonVertices];
 
-    for(NSString *bodyName in bodyDict) 
+    for(NSString *bodyName in bodyDict)
     {
         // get the body data
         NSDictionary *bodyData = [bodyDict objectForKey:bodyName];
@@ -179,7 +179,7 @@ public:
         BodyDef *bodyDef = [[[BodyDef alloc] init] autorelease];
 
         bodyDef->anchorPoint = CGPointFromString_([bodyData objectForKey:@"anchorpoint"]);
-        
+
         // iterate through the fixtures
         NSArray *fixtureList = [bodyData objectForKey:@"fixtures"];
         FixtureDef **nextFixtureDef = &(bodyDef->fixtures);
@@ -187,7 +187,7 @@ public:
         for(NSDictionary *fixtureData in fixtureList)
         {
             b2FixtureDef basicData;
-            
+
             basicData.filter.categoryBits = [[fixtureData objectForKey:@"filter_categoryBits"] intValue];
             basicData.filter.maskBits = [[fixtureData objectForKey:@"filter_maskBits"] intValue];
             basicData.filter.groupIndex = [[fixtureData objectForKey:@"filter_groupIndex"] intValue];
@@ -196,14 +196,14 @@ public:
             basicData.restitution = [[fixtureData objectForKey:@"restitution"] floatValue];
             basicData.isSensor = [[fixtureData objectForKey:@"isSensor"] boolValue];
             int callbackData = [[fixtureData objectForKey:@"userdataCbValue"] intValue];
-            
+
             NSString *fixtureType = [fixtureData objectForKey:@"fixture_type"];
 
             // read polygon fixtures. One convave fixture may consist of several convex polygons
             if([fixtureType isEqual:@"POLYGON"])
             {
                 NSArray *polygonsArray = [fixtureData objectForKey:@"polygons"];
-                
+
                 for(NSArray *polygonArray in polygonsArray)
                 {
                     FixtureDef *fix = new FixtureDef();
@@ -212,19 +212,19 @@ public:
 
                     b2PolygonShape *polyshape = new b2PolygonShape();
                     int vindex = 0;
-                    
+
                     assert([polygonArray count] <= b2_maxPolygonVertices);
                     for(NSString *pointString in polygonArray)
                     {
                         CGPoint offset = CGPointFromString_(pointString);
-                        vertices[vindex].x = (offset.x / ptmRatio_) ; 
-                        vertices[vindex].y = (offset.y / ptmRatio_) ; 
+                        vertices[vindex].x = (offset.x / ptmRatio_) ;
+                        vertices[vindex].y = (offset.y / ptmRatio_) ;
                         vindex++;
                     }
-                    
+
                     polyshape->Set(vertices, vindex);
                     fix->fixture.shape = polyshape;
-                    
+
                     // create a list
                     *nextFixtureDef = fix;
                     nextFixtureDef = &(fix->next);
@@ -235,9 +235,9 @@ public:
                 FixtureDef *fix = new FixtureDef();
                 fix->fixture = basicData; // copy basic data
                 fix->callbackData = callbackData;
-                
+
                 NSDictionary *circleData = [fixtureData objectForKey:@"circle"];
-                
+
                 b2CircleShape *circleShape = new b2CircleShape();
                 circleShape->m_radius = [[circleData objectForKey:@"radius"] floatValue]  / ptmRatio_;
                 CGPoint p = CGPointFromString_([fixtureData objectForKey:@"center"]);
@@ -254,7 +254,7 @@ public:
                 assert(0);
             }
         }
-     
+
         // add the body element to the hash
         [shapeObjects_ setObject:bodyDef forKey:bodyName];
     }

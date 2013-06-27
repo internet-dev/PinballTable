@@ -18,11 +18,11 @@
 @interface PinballTable : CCLayer
 {
     /** 物理世界 */
-	b2World* world;
+    b2World* world;
     /** 碰撞监听 */
-	ContactListener* contactListener;
-	
-	GLESDebugDraw* debugDraw;
+    ContactListener* contactListener;
+
+    GLESDebugDraw* debugDraw;
 }
 
 +(id) scene;

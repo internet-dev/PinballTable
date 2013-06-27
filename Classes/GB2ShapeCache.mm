@@ -37,6 +37,7 @@
 #   define CGPointFromString_ CGPointFromString
 #else
 // well - not nice but works for now
+/** 将 {x,y}*/
 static CGPoint CGPointFromString_(NSString* str)
 {
     NSString* theString = str;
@@ -64,7 +65,7 @@ public:
         delete fixture.shape;
     }
 
-    FixtureDef *next;
+    FixtureDef  *next;
     b2FixtureDef fixture;
     int callbackData;
 };
@@ -81,16 +82,15 @@ public:
 }
 @end
 
-
 @implementation BodyDef
 
 -(id) init
 {
-    self = [super init];
-    if(self)
+    if ((self = [super init]))
     {
         fixtures = 0;
     }
+
     return self;
 }
 
@@ -102,27 +102,28 @@ public:
 
 @end
 
-
 @implementation GB2ShapeCache
-
 
 + (GB2ShapeCache *)sharedShapeCache
 {
-    static GB2ShapeCache *shapeCache = 0;
-    if(!shapeCache)
+    /** 单件模式 */
+    static GB2ShapeCache *shapeCache = NULL;
+    if (!shapeCache)
     {
         shapeCache = [[GB2ShapeCache alloc] init];
     }
+
     return shapeCache;
 }
 
+/** 初始化 */
 -(id) init
 {
-    self = [super init];
-    if(self)
+    if((self = [super init]))
     {
         shapeObjects_ = [[NSMutableDictionary alloc] init];
     }
+
     return self;
 }
 
@@ -138,7 +139,7 @@ public:
     assert(so);
 
     FixtureDef *fix = so->fixtures;
-    while(fix)
+    while (fix)
     {
         body->CreateFixture(&fix->fixture);
         fix = fix->next;
@@ -149,6 +150,7 @@ public:
 {
     BodyDef *bd = [shapeObjects_ objectForKey:shape];
     assert(bd);
+
     return bd->anchorPoint;
 }
 
@@ -162,9 +164,9 @@ public:
 
     NSDictionary *metadataDict = [dictionary objectForKey:@"metadata"];
     int format = [[metadataDict objectForKey:@"format"] intValue];
-    ptmRatio_ =  [[metadataDict objectForKey:@"ptm_ratio"] floatValue];
-
     NSAssert(format == 1, @"Format not supported");
+
+    ptmRatio_ =  [[metadataDict objectForKey:@"ptm_ratio"] floatValue];
 
     NSDictionary *bodyDict = [dictionary objectForKey:@"bodies"];
 

@@ -11,9 +11,9 @@
 
 //
 // Supported Autorotations:
-//		None,
-//		UIViewController,
-//		CCDirector
+//        None,
+//        UIViewController,
+//        CCDirector
 //
 #define kGameAutorotationNone 0
 #define kGameAutorotationCCDirector 1

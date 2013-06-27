@@ -11,8 +11,8 @@
 
 @interface Ball : BodyNode <CCTargetedTouchDelegate>
 {
-	bool moveToFinger;
-	CGPoint fingerLocation;
+    bool moveToFinger;
+    CGPoint fingerLocation;
 }
 
 /**

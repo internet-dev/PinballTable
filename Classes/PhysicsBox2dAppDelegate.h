@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 @interface PhysicsBox2dAppDelegate : NSObject <UIApplicationDelegate> {
-	UIWindow *window;
+    UIWindow *window;
 }
 
 @property (nonatomic, retain) UIWindow *window;

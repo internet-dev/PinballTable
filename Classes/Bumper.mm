@@ -15,17 +15,17 @@
 
 -(id) initWithWorld:(b2World*)world position:(CGPoint)pos
 {
-	if ((self = [super initWithShape:@"bumper" inWord:world]))
-	{
+    if ((self = [super initWithShape:@"bumper" inWord:world]))
+    {
         // set the body position
         body->SetTransform([Helper toMeters:pos], 0.0f);
-	}
-	return self;
+    }
+    return self;
 }
 
 +(id) bumperWithWorld:(b2World*)world position:(CGPoint)pos
 {
-	return [[[self alloc] initWithWorld:world position:pos] autorelease];
+    return [[[self alloc] initWithWorld:world position:pos] autorelease];
 }
 
 @end

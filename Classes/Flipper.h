@@ -10,15 +10,15 @@
 
 typedef enum
 {
-	kFlipperLeft,
-	kFlipperRight,
+    kFlipperLeft,
+    kFlipperRight,
 } EFlipperType;
 
 @interface Flipper : BodyNode <CCTargetedTouchDelegate>
 {
-	EFlipperType type;
-	b2RevoluteJoint* joint;
-	float totalTime;
+    EFlipperType type;
+    b2RevoluteJoint* joint;
+    float totalTime;
 }
 
 +(id) flipperWithWorld:(b2World*)world flipperType:(EFlipperType)flipperType;

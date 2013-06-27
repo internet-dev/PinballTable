@@ -18,9 +18,9 @@
 @synthesize otherObject, ownFixture, otherFixture, b2contact;
 
 +(id) contactWithObject:(NSObject*)otherObject
-		   otherFixture:(b2Fixture*)otherFixture
-			 ownFixture:(b2Fixture*)ownFixture
-			  b2Contact:(b2Contact*)b2contact
+           otherFixture:(b2Fixture*)otherFixture
+             ownFixture:(b2Fixture*)ownFixture
+              b2Contact:(b2Contact*)b2contact
 {
     Contact* contact = [[[Contact alloc] init] autorelease];
 
@@ -31,38 +31,38 @@
         contact.ownFixture = ownFixture;
         contact.b2contact = b2contact;
     }
-    
+
     return contact;
 }
 
 -(id) retain
 {
-	[NSException raise:@"ContactRetainException"
-				format:@"Do not retain a Contact - it is for temporary use only!"];
-	return self;
+    [NSException raise:@"ContactRetainException"
+                format:@"Do not retain a Contact - it is for temporary use only!"];
+    return self;
 }
 
 @end
 
 
 // notify the listener
-void ContactListener::notifyAB(b2Contact* contact, 
-							   NSString* contactType, 
-							   b2Fixture* fixture,
-							   NSObject* obj, 
-							   b2Fixture* otherFixture, 
-							   NSObject* otherObj)
+void ContactListener::notifyAB(b2Contact* contact,
+                               NSString* contactType,
+                               b2Fixture* fixture,
+                               NSObject* obj,
+                               b2Fixture* otherFixture,
+                               NSObject* otherObj)
 {
-	NSString* format = @"%@ContactWith%@:";
-	NSString* otherClassName = NSStringFromClass([otherObj class]);
-	NSString* selectorString = [NSString stringWithFormat:format, contactType, otherClassName];
-	//CCLOG(@"notifyAB selector: %@", selectorString);
+    NSString* format = @"%@ContactWith%@:";
+    NSString* otherClassName = NSStringFromClass([otherObj class]);
+    NSString* selectorString = [NSString stringWithFormat:format, contactType, otherClassName];
+    //CCLOG(@"notifyAB selector: %@", selectorString);
     SEL contactSelector = NSSelectorFromString(selectorString);
 
     if ([obj respondsToSelector:contactSelector])
     {
-		CCLOG(@"notifyAB performs selector: %@", selectorString);
-		
+        CCLOG(@"notifyAB performs selector: %@", selectorString);
+
         Contact* contactInfo = [Contact contactWithObject:otherObj
                                              otherFixture:otherFixture
                                                ownFixture:fixture
@@ -103,10 +103,10 @@ void ContactListener::EndContact(b2Contact* contact)
 
 void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 {
-	// do nothing (yet)
+    // do nothing (yet)
 }
 
 void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
 {
-	// do nothing (yet)
+    // do nothing (yet)
 }

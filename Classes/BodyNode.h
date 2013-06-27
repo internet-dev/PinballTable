@@ -17,9 +17,9 @@
 #import "Box2D.h"
 #import "b2Body.h"
 
-@interface BodyNode : CCSprite 
+@interface BodyNode : CCSprite
 {
-	b2Body* body;
+    b2Body* body;
 }
 
 @property (readonly, nonatomic) b2Body* body;

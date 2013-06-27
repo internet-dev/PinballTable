@@ -18,20 +18,20 @@
 
 -(id) initWithWorld:(b2World*)world position:(CGPoint)pos name:(NSString *)name
 {
-	if ((self = [super initWithShape:name inWord:world]))
-	{
+    if ((self = [super initWithShape:name inWord:world]))
+    {
         // set the body position
         body->SetTransform([Helper toMeters:pos], 0.0f);
 
         // make the body static
         body->SetType(b2_staticBody);
-	}
-	return self;
+    }
+    return self;
 }
 
 +(id) tablePartInWorld:(b2World*)world position:(CGPoint)pos name:(NSString *)name
 {
-	return [[[self alloc] initWithWorld:world position:pos name:name] autorelease];
+    return [[[self alloc] initWithWorld:world position:pos name:name] autorelease];
 }
 
 @end

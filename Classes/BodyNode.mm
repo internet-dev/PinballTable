@@ -23,12 +23,12 @@
     // init the sprite itself with the given shape name
     self = [super initWithSpriteFrameName:shapeName];
     if (self)
-    {        
+    {
         // create the body
         b2BodyDef bodyDef;
         body = world->CreateBody(&bodyDef);
         body->SetUserData(self);
-        
+
         // set the shape
         [self setBodyShape:shapeName];
     }
@@ -58,7 +58,7 @@
     // remove the body from the world
     body->GetWorld()->DestroyBody(body);
 
-	[super dealloc];
+    [super dealloc];
 }
 
 @end

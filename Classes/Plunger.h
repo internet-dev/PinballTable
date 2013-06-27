@@ -11,7 +11,7 @@
 
 @interface Plunger : BodyNode
 {
-	b2PrismaticJoint* joint;
+    b2PrismaticJoint* joint;
 }
 
 +(id) plungerWithWorld:(b2World*)world;
